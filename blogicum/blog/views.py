@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 
 posts = [
@@ -43,20 +44,26 @@ posts = [
     },
 ]
 
+# Получение словаря идентификаторов постов
+list_index = [num for num in range(len(posts))]
+dict_id = {num: value for num, value in zip(list_index, posts)}
+
 
 def index(request):
-    template = 'blog/index.html'
+    """Отображение главной страницы."""
     context = {'posts': posts}
-    return render(request, template, context)
+    return render(request, 'blog/index.html', context)
 
 
-def post_detail(request, id):
-    template = 'blog/detail.html'
-    context = {'post': posts[id]}
-    return render(request, template, context)
+def post_detail(request, post_id):
+    """Отображение страницы с подробным текстом публикации."""
+    if post_id not in dict_id:
+        raise Http404
+    context = {'post': dict_id[post_id]}
+    return render(request, 'blog/detail.html', context)
 
 
 def category_posts(request, category_slug):
-    template = 'blog/category.html'
+    """Отображение страницы с публикациями по категории."""
     context = {'category': category_slug}
-    return render(request, template, context)
+    return render(request, 'blog/category.html', context)

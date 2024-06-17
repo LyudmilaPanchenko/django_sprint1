@@ -2,10 +2,10 @@ from django.shortcuts import render
 
 
 def about(request):
-    template = 'pages/about.html'
-    return render(request, template)
+    """Отображение страницы с описанием сайта."""
+    return render(request, 'pages/about.html')
 
 
 def rules(request):
-    template = 'pages/rules.html'
-    return render(request, template)
+    """Отображение страницы с правилами сайта."""
+    return render(request, 'pages/rules.html')
