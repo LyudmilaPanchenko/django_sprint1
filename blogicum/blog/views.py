@@ -45,8 +45,7 @@ posts = [
 ]
 
 # Получение словаря идентификаторов постов
-list_index = [num for num in range(len(posts))]
-dict_id = {num: value for num, value in zip(list_index, posts)}
+dict_id = {post['id']: post for post in posts}
 
 
 def index(request):
@@ -58,7 +57,7 @@ def index(request):
 def post_detail(request, post_id):
     """Отображение страницы с подробным текстом публикации."""
     if post_id not in dict_id:
-        raise Http404
+        raise Http404(f'Пост {post_id} не найден')
     context = {'post': dict_id[post_id]}
     return render(request, 'blog/detail.html', context)
 
